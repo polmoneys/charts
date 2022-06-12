@@ -1,0 +1,56 @@
+.root {
+    position: relative;
+}
+
+.tooltip,
+.median,
+.toggle,
+.legend {
+    cursor: pointer;
+    padding: 0.8em 0.4em;
+}
+
+.tooltip,
+.toggle {
+    position: absolute;
+}
+.tooltip {
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+.toggle {
+    top: 0.3em;
+    left: 0.3em;
+    min-width: 1.8em;
+    aspect-ratio: 1;
+    border-radius: 0.5em;
+    padding: 0;
+    overflow: hidden;
+}
+
+.toggle:hover {
+    filter: hue-rotate(-120deg);
+}
+
+.legend {
+    text-align: left;
+    width: 100%;
+}
+
+.marker:hover {
+    filter: hue-rotate(-120deg);
+}
+
+.visuallyHidden {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}

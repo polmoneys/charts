@@ -1,0 +1,91 @@
+*,
+:after,
+:before {
+    box-sizing: border-box;
+    color: currentColor;
+}
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+html {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    line-height: 1.4;
+    overflow-y: scroll;
+}
+@supports (scrollbar-gutter: stable) {
+    body {
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+    }
+}
+
+body {
+    font-family: sans-serif;
+}
+
+main {
+    padding: max(5vh, 2em) 2vw;
+}
+
+li {
+    list-style: none;
+    font-size: 1.2em;
+    color: blue;
+    font-weight: 500;
+    color: rgb(255, 107, 107);
+}
+
+li:first-of-type {
+    font-weight: 600;
+}
+header {
+    font-family: 'Fredoka One', cursive;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.github svg {
+    width: 3em;
+}
+h1 {
+    font-size: 6em;
+    color: rgb(255, 107, 107);
+}
+h1 span {
+    letter-spacing: 0.1em;
+}
+
+.color-accent-1 {
+    color: rgba(227, 255, 168, 1);
+}
+.color-accent-2 {
+    color: rgba(69, 255, 188, 1);
+}
+
+.color-accent-3 {
+    color: rgb(255, 107, 107);
+}
+
+section {
+    align-items: start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    width: 100%;
+    gap: 1em;
+}
+
+a {
+    font-weight: 600;
+}
