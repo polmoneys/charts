@@ -13,13 +13,10 @@ cd docs
 # echo 'www.example.com' > CNAME
 
 git add -A
-git commit -m 'deploy'
-
-# if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+git commit -m 'feat: bump version 1.0.0'
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 git push -f git@github.com:polmoneys/charts.git
-master:gh-pages
+unicorn:gh-pages
 
 cd -
