@@ -1,7 +1,7 @@
 {
     "name": "charts",
-    "private": true,
     "version": "1.0.0",
+    "homepage": "https://github.com/polmoneys/charts",
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
