@@ -60,13 +60,6 @@ function App() {
                             options={{ ...colorsOptions, variant }}
                         />
                     ))}
-                <Chart
-                    datum={STOCKS_PIE}
-                    options={{
-                        ...colorsOptions,
-                        variant: 'pie',
-                    }}
-                />
             </section>
 
             <List>
