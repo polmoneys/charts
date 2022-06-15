@@ -63,7 +63,7 @@ function App() {
                 <Chart
                     datum={STOCKS_PIE}
                     options={{
-                        ...initialOptions,
+                        ...colorsOptions,
                         variant: 'pie',
                     }}
                 />
