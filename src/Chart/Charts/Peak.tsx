@@ -1,18 +1,20 @@
 import Charts from '../interfaces/Charts';
+import { Value } from '../interfaces/Values';
 import Group from './Group';
+import styles from '../Chart.module.css';
 
 const Peak = (props: Charts) => {
     const { values, onClick, origin, round, spacing, stroke } = props;
 
     return (
         <Group round={round} stroke={stroke}>
-            {values.map(({ color, label, raw, value, id }: any, index: number) => {
-                const p1 = `${origin.x + index * spacing},${origin.y}`;
-                const p2 = `${origin.x + index * spacing + spacing / 2},${value > 0 ? origin.y - value : origin.y - 10}`;
-                const p3 = `${origin.x + index * spacing + spacing},${origin.y}`;
-                const d = `${p1} ${p2} ${p3}`;
+            {values.map(({ color, label, raw, value, id }: Value, index: number) => {
+                const face = `${origin.x + index * spacing},${origin.y}`;
+                const face2 = `${origin.x + index * spacing + spacing / 2},${value > 0 ? origin.y - value : origin.y - 10}`;
+                const face3 = `${origin.x + index * spacing + spacing},${origin.y}`;
+                const shape = `${face} ${face2} ${face3}`;
 
-                return <polygon key={id} style={{ cursor: 'pointer' }} points={d} fill={color} onClick={() => onClick({ raw, label })} />;
+                return <polygon key={id} className={styles.pointer} points={shape} fill={color} onClick={() => onClick({ raw, label })} />;
             })}
         </Group>
     );

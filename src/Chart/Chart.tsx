@@ -51,6 +51,7 @@ const Chart = (props: ChartProps) => {
 
     const isChartReady = base !== null;
     const uiBorder = { border: `${options.stroke.width}px solid ${options.stroke.color}` };
+    const noMedianVariants = ['series', 'pie'];
     return (
         <Stick
             component="article"
@@ -77,7 +78,9 @@ const Chart = (props: ChartProps) => {
             {tooltip.display && <Charts.Tooltip {...tooltip} onClick={tooltipOut} theme={{ ...options.theme.ui, ...uiBorder }} />}
             <svg ref={mountRef} {...base?.svgProps}>
                 {isChartReady && [
-                    options.variant !== 'series' && options.theme.median && <Charts.Median key="median" {...base.chartMedian} onClick={tooltipMedianIn} />,
+                    !noMedianVariants.includes(options.variant) && options.theme.median && (
+                        <Charts.Median key="median" {...base.chartMedian} onClick={tooltipMedianIn} />
+                    ),
                     {
                         skyScraper: <Charts.SkyScraper key="skyscraper" {...base.chart} onClick={tooltipIn} />,
                         cube: <Charts.Cube key="cube" {...base.chart} onClick={tooltipIn} />,
@@ -89,6 +92,7 @@ const Chart = (props: ChartProps) => {
                         series: <Charts.Series key="series" {...base.chart} onClick={tooltipIn} />,
                         line: <Charts.Line key="line" {...base.chart} onClick={tooltipIn} />,
                         rect: <Charts.Rect key="rect" {...base.chart} onClick={tooltipIn} />,
+                        pie: <Charts.Pie key="pie" {...base.chart} onClick={tooltipIn} />,
                     }[options.variant],
                 ]}
             </svg>

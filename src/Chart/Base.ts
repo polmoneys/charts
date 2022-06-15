@@ -82,28 +82,42 @@ export default class Base {
             variant,
         } = this.#options;
         const isSeries = variant === 'series';
+        const isPie = variant === 'pie';
 
         const min = isSeries ? this.min(datum.flat()) : this.min(datum);
         const max = isSeries ? this.max(datum.flat()) : this.max(datum);
         const spacing = this.step(isSeries);
-        const values = isSeries
-            ? (datum as Series).map((nestedDatum: Array<Value>) => {
-                  const subDatum = nestedDatum.map((data: Value, index: number) => ({
-                      ...data,
-                      raw: data.value,
-                      value: this.peak(data.value as number, min, max),
-                      color: this.shade(index, colorStart, colorEnd),
-                  }));
-                  return subDatum;
-              })
-            : (datum as Array<Value>).map((data: Value, index: number) => ({
-                  ...data,
-                  raw: data.value,
-                  value: this.peak(data.value as number, min, max),
-                  color: this.shade(index / 10, colorStart, colorEnd),
-              }));
-        const median = this.median(values);
+        let median = 0;
+        let total = 0;
+
+        let values: Values = [];
+        if (isSeries) {
+            values = (datum as Series).map((nestedDatum: Array<Value>) => {
+                const subDatum = nestedDatum.map((data: Value, index: number) => ({
+                    ...data,
+                    raw: data.value,
+                    value: this.peak(data.value as number, min, max),
+                    color: this.shade(index, colorStart, colorEnd),
+                }));
+                return subDatum;
+            });
+            this.accessibility = { ...this.createAccessibleText(values as Series, true) };
+        }
+
         const origin = this.origin(spacing);
+
+        if (!isSeries) {
+            total = (datum as Array<Value>).map((d) => d.value).reduce((previousValue: number, nextValue: number) => previousValue + nextValue, 0);
+            values = (datum as Array<Value>).map((data: Value, index: number) => ({
+                ...data,
+                raw: data.value,
+                ...(isPie && { percent: roundTo((data.value / total) * 100, 0) / 100 }),
+                value: isPie ? roundTo((data.value / total) * 100, 0) / 100 : this.peak(data.value as number, min, max),
+                color: this.shade((index * (isPie ? 33 : 14)) / 100, colorStart, colorEnd),
+            }));
+            median = this.median(values);
+            this.accessibility = { ...this.createAccessibleText(values as Array<Value>) };
+        }
 
         this.computed = {
             ...this.computed,
@@ -118,9 +132,10 @@ export default class Base {
             round: round,
             stroke,
             areaBg: areaBg,
+            ...(isPie && {
+                total,
+            }),
         };
-
-        this.accessibility = isSeries ? { ...this.createAccessibleText(values as Series, true) } : { ...this.createAccessibleText(values as Array<Value>) };
     }
 
     createAccessibleText(values: Values, isSeries: boolean = false) {

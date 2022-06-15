@@ -52,4 +52,5 @@ export const initialComputed = {
     },
     values: [],
     width: 0,
+    total: 0,
 };

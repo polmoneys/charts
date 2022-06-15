@@ -1,6 +1,7 @@
 import Charts from '../interfaces/Charts';
-import { colorize } from '../utils';
+import { Value } from '../interfaces/Values';
 import Group from './Group';
+import styles from '../Chart.module.css';
 
 const Pyramid = (props: Charts) => {
     const { values, height, onClick, origin, round, spacing, stroke, shades } = props;
@@ -9,7 +10,7 @@ const Pyramid = (props: Charts) => {
 
     return (
         <Group round={round} stroke={stroke}>
-            {values.map(({ label, raw, value }: any, index: number) => {
+            {values.map(({ label, raw, value, color }: Value, index: number) => {
                 const peak = Number(height) - (87 + value) * scaling;
 
                 const originFix = {
@@ -26,28 +27,20 @@ const Pyramid = (props: Charts) => {
 
                 const faces = [
                     `M ${originFix.x + vertex.x},${originFix.y} 
-            L 
-            ${originFix.x}, ${originFix.y + vertex.y}
-            ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
-            z`,
+                    L 
+                    ${originFix.x}, ${originFix.y + vertex.y}
+                    ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
+                    z`,
                     `M ${originFix.x + vertex.x},${originFix.y} 
-             ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
-             ${originFix.x + vertex.xx},${originFix.y + vertex.y}
-             z`,
+                    ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
+                    ${originFix.x + vertex.xx},${originFix.y + vertex.y}
+                    z`,
                 ];
                 return (
-                    <g
-                        key={index}
-                        style={{
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => onClick({ raw, label })}
-                    >
-                        <g>
-                            {faces.map((f, i) => (
-                                <path d={f} key={`${i}-face-pyramid`} fill={colorize((i * 16) / 100, shades?.[0])} />
-                            ))}
-                        </g>
+                    <g key={index} className={styles.pointer} onClick={() => onClick({ raw, label })}>
+                        {faces.map((f, i) => (
+                            <path d={f} key={`${i}-face-pyramid`} fill={color} />
+                        ))}
                     </g>
                 );
             })}

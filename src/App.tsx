@@ -52,7 +52,7 @@ function App() {
 
             <section>
                 {variantNames
-                    .filter((variant) => variant !== 'bar')
+                    .filter((variant) => variant !== 'bar' && variant !== 'pie')
                     .map((variant) => (
                         <Chart
                             datum={variant === 'series' ? STOCKS_SERIES : STOCKS}
@@ -60,6 +60,13 @@ function App() {
                             options={{ ...colorsOptions, variant }}
                         />
                     ))}
+                <Chart
+                    datum={STOCKS_PIE}
+                    options={{
+                        ...initialOptions,
+                        variant: 'pie',
+                    }}
+                />
             </section>
 
             <List>
@@ -79,7 +86,7 @@ function App() {
             <br />
             <section>
                 {variantNames
-                    .filter((variant) => variant !== 'bar')
+                    .filter((variant) => variant !== 'bar' && variant !== 'pie')
                     .map((variant) => (
                         <Chart
                             datum={variant === 'series' ? STOCKS_SERIES : STOCKS}
@@ -87,6 +94,7 @@ function App() {
                             options={{ ...strokeOptions, variant }}
                         />
                     ))}
+                <Chart datum={STOCKS_PIE} options={{ ...strokeOptions, variant: 'pie' }} />
             </section>
 
             {/* <section>
@@ -261,4 +269,22 @@ const STOCKS_SERIES = [
             value: 40,
         },
     ],
+];
+
+const STOCKS_PIE = [
+    {
+        id: i++,
+        label: 'MSFT',
+        value: 60,
+    },
+    {
+        id: i++,
+        label: 'AAPL',
+        value: 120,
+    },
+    {
+        id: i++,
+        label: 'AMZN',
+        value: 20,
+    },
 ];

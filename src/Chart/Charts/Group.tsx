@@ -4,6 +4,7 @@ interface Props {
     children: ReactNode;
     round: boolean;
     stroke: { color: string; width: number };
+    transform?: string;
 }
 
 function Group(props: Props) {
@@ -11,9 +12,17 @@ function Group(props: Props) {
         children,
         round = true,
         stroke: { color, width },
+        transform,
     } = props;
     return (
-        <g aria-hidden="true" strokeLinecap={round ? 'round' : 'butt'} strokeLinejoin={round ? 'round' : 'miter'} stroke={color} strokeWidth={width}>
+        <g
+            aria-hidden="true"
+            strokeLinecap={round ? 'round' : 'butt'}
+            strokeLinejoin={round ? 'round' : 'miter'}
+            stroke={color}
+            strokeWidth={width}
+            {...(transform !== undefined && { transform })}
+        >
             {children}
         </g>
     );

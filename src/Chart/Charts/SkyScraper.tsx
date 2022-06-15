@@ -1,6 +1,6 @@
 import Charts from '../interfaces/Charts';
-import { colorize } from '../utils';
 import Group from './Group';
+import styles from '../Chart.module.css';
 
 const SkyScraper = (props: Charts) => {
     const { values, height, onClick, origin, round, spacing, stroke, shades } = props;
@@ -9,7 +9,7 @@ const SkyScraper = (props: Charts) => {
 
     return (
         <Group round={round} stroke={stroke}>
-            {values.map(({ label, raw, value }: any, index: number) => {
+            {values.map(({ label, raw, value, color }: any, index: number) => {
                 const magicNumbers = {
                     // TOOD: Naming will be hard
                     min: 29,
@@ -34,26 +34,26 @@ const SkyScraper = (props: Charts) => {
 
                 const faces = [
                     `M ${originFix.x},${originFix.y + vertex.y} 
-        L 
-        ${originFix.x}, ${originFix.y + vertex.yyy}
-        ${originFix.x + vertex.x}, ${originFix.y + vertex.yyyy}
-        ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
-        ${originFix.x},${originFix.y + vertex.y}
-        z`,
+                    L 
+                    ${originFix.x}, ${originFix.y + vertex.yyy}
+                    ${originFix.x + vertex.x}, ${originFix.y + vertex.yyyy}
+                    ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
+                    ${originFix.x},${originFix.y + vertex.y}
+                    z`,
                     `M ${originFix.x},${originFix.y + vertex.y} 
-        L 
-        ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
-        ${originFix.x + vertex.xx}, ${originFix.y + vertex.y}
-        ${originFix.x + vertex.x}, ${originFix.y}
-        ${originFix.x},${originFix.y + vertex.y}
-        z`,
+                    L 
+                    ${originFix.x + vertex.x}, ${originFix.y + vertex.yy}
+                    ${originFix.x + vertex.xx}, ${originFix.y + vertex.y}
+                    ${originFix.x + vertex.x}, ${originFix.y}
+                    ${originFix.x},${originFix.y + vertex.y}
+                    z`,
                     `M ${originFix.x + vertex.x},${originFix.y + vertex.yy} 
-        L 
-        ${originFix.x + vertex.x}, ${originFix.y + vertex.yyyy}
-        ${originFix.x + vertex.xx}, ${originFix.y + vertex.yyy}
-        ${originFix.x + vertex.xx}, ${originFix.y + vertex.y}
-        ${originFix.x + vertex.x},${originFix.y + vertex.yy}
-        z`,
+                    L 
+                    ${originFix.x + vertex.x}, ${originFix.y + vertex.yyyy}
+                    ${originFix.x + vertex.xx}, ${originFix.y + vertex.yyy}
+                    ${originFix.x + vertex.xx}, ${originFix.y + vertex.y}
+                    ${originFix.x + vertex.x},${originFix.y + vertex.yy}
+                    z`,
                 ];
 
                 const originFixTop = {
@@ -70,37 +70,27 @@ const SkyScraper = (props: Charts) => {
 
                 const facesTop = [
                     `M ${originFixTop.x + vertexTop.x},${originFixTop.y} 
-      L 
-      ${originFixTop.x}, ${originFixTop.y + vertexTop.y}
-      ${originFixTop.x + vertexTop.x}, ${originFixTop.y + vertexTop.yy}
-      z
-      `,
+                    L 
+                    ${originFixTop.x}, ${originFixTop.y + vertexTop.y}
+                    ${originFixTop.x + vertexTop.x}, ${originFixTop.y + vertexTop.yy}
+                    z
+                    `,
                     `M ${originFixTop.x + vertexTop.x},${originFixTop.y} 
-       ${originFixTop.x + vertexTop.x}, ${originFixTop.y + vertexTop.yy}
-       ${originFixTop.x + vertexTop.xx},${originFixTop.y + vertexTop.y}
-       z`,
+                    ${originFixTop.x + vertexTop.x}, ${originFixTop.y + vertexTop.yy}
+                    ${originFixTop.x + vertexTop.xx},${originFixTop.y + vertexTop.y}
+                    z`,
                 ];
 
                 return (
-                    <g
-                        key={index}
-                        style={{
-                            cursor: 'pointer',
-                        }}
-                        onClick={() => onClick({ raw, label })}
-                    >
-                        <g
-                            style={{
-                                cursor: 'pointer',
-                            }}
-                        >
+                    <g key={index} className={styles.pointer} onClick={() => onClick({ raw, label })}>
+                        <g>
                             {faces.map((f, i) => (
-                                <path d={f} key={`${i}-face-base`} fill={colorize((i * 16) / 100, shades?.[1])} />
+                                <path d={f} key={`${i}-face-base`} fill={color} />
                             ))}
                         </g>
                         <g>
                             {facesTop.map((f, i) => (
-                                <path d={f} key={`${i}-face-pyramid`} fill={colorize((i * 16) / 100, shades?.[1])} />
+                                <path d={f} key={`${i}-face-pyramid`} fill={color} />
                             ))}
                         </g>
                     </g>

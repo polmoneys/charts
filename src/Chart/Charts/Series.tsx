@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import Charts from '../interfaces/Charts';
+import { Value } from '../interfaces/Values';
 import { roundTo, unwrapArray } from '../utils';
 import Marker from './Marker';
 import Group from './Group';
@@ -9,7 +10,7 @@ const Series = (props: Charts) => {
 
     const markers = useMemo(() => {
         return values.map((datum: any) =>
-            datum.map(({ color, label, raw, value, id }: any, index: number) => {
+            datum.map(({ color, label, raw, value, id }: Value, index: number) => {
                 const markerProps = {
                     color,
                     circleX: roundTo(origin.x + index * spacing, 0),
@@ -30,7 +31,7 @@ const Series = (props: Charts) => {
     return (
         <Group round={round} stroke={stroke}>
             {values.map((datum: any, i: number) =>
-                datum.map(({ color, value, id }: any, index: number) => {
+                datum.map(({ color, value, id }: Value, index: number) => {
                     // @ts-ignore
                     const end = !values[i][index + 1]
                         ? // @ts-ignore
@@ -38,25 +39,13 @@ const Series = (props: Charts) => {
                         : // @ts-ignore
                           unwrapArray(values[i][index + 1]).value;
                     if (values[i].length === index + 1) {
-                        return (
-                            <path
-                                key={id}
-                                strokeWidth={stroke.width}
-                                stroke={color}
-                                d={`M ${origin.x + spacing * index},${Number(height) - value}
-                    L ${origin.x + spacing * index}, ${Number(height) - end} `}
-                            />
-                        );
+                        const shape = `M ${origin.x + spacing * index},${Number(height) - value}
+                        L ${origin.x + spacing * index}, ${Number(height) - end} `;
+                        return <path key={id} strokeWidth={stroke.width} stroke={color} d={shape} />;
                     }
-                    return (
-                        <path
-                            key={id}
-                            strokeWidth={stroke.width}
-                            stroke={color}
-                            d={`M ${origin.x + spacing * index},${Number(height) - value}
-              L ${origin.x + spacing * (index + 1)}, ${Number(height) - end} `}
-                        />
-                    );
+                    const shape = `M ${origin.x + spacing * index},${Number(height) - value}
+                    L ${origin.x + spacing * (index + 1)}, ${Number(height) - end} `;
+                    return <path key={id} strokeWidth={stroke.width} stroke={color} d={shape} />;
                 })
             )}
             {markers}
@@ -64,4 +53,5 @@ const Series = (props: Charts) => {
     );
 };
 export default Series;
+
 Series.displayName = 'Series';

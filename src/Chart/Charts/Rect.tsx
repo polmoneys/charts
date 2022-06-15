@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
 import Charts from '../interfaces/Charts';
-import Marker from './Marker';
+import { Value } from '../interfaces/Values';
 import Group from './Group';
+import styles from '../Chart.module.css';
 
 const Rect = (props: Charts) => {
     const { values, height, onClick, origin, round, spacing, stroke } = props;
     const minPeak = 4;
 
     const rects = useMemo(() => {
-        return values.map(({ label, color, value, raw, id }: any, index: number) => {
+        return values.map(({ label, color, value, raw, id }: Value, index: number) => {
             return (
                 <rect
                     key={id}
@@ -19,10 +20,10 @@ const Rect = (props: Charts) => {
                     y={-height}
                     onClick={() => onClick({ label, raw })}
                     stroke={stroke.color}
+                    className={styles.pointer}
                     fill={color}
                     style={{
                         transform: 'rotateX(180deg)',
-                        cursor: 'pointer',
                     }}
                 />
             );

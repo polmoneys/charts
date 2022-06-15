@@ -39,8 +39,16 @@
     width: 100%;
 }
 
+.marker {
+    cursor: pointer;
+}
+
 .marker:hover {
     filter: hue-rotate(-120deg);
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 .visuallyHidden {

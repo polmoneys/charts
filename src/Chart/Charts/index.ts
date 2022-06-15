@@ -9,6 +9,7 @@ import Cube from './Cube';
 import SkyScraper from './SkyScraper';
 import Series from './Series';
 import Rect from './Rect';
+import Pie from './Pie';
 import Tooltip from './Tooltip';
 import Legend from './Legend';
 
@@ -25,6 +26,7 @@ Charts.Cube = Cube;
 Charts.SkyScraper = SkyScraper;
 Charts.Series = Series;
 Charts.Rect = Rect;
+Charts.Pie = Pie;
 Charts.Tooltip = Tooltip;
 Charts.Legend = Legend;
 

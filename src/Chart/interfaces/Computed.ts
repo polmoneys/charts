@@ -16,4 +16,5 @@ export default interface Computed {
         width: number;
         color: string;
     };
+    total?: number;
 }

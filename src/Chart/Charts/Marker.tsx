@@ -17,7 +17,7 @@ const Marker = (props: MarkerProps) => {
     return (
         <circle
             key={id}
-            onClick={() => onClick?.({ raw, label })}
+            onClick={() => onClick({ raw, label })}
             strokeWidth={strokeWidth}
             fill={color}
             cx={circleX}

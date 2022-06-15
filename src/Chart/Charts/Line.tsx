@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import Charts from '../interfaces/Charts';
+import { Value } from '../interfaces/Values';
 import { roundTo, unwrapArray } from '../utils';
 import Marker from './Marker';
 import Group from './Group';
@@ -8,28 +9,16 @@ const Line = (props: Charts) => {
     const { values, height, onClick, origin, round, spacing, stroke } = props;
 
     const lines = useMemo(() => {
-        return values.map(({ color, value, id }: any, index: number) => {
+        return values.map(({ color, value, id }: Value, index: number) => {
             if (index + 1 === values.length) {
+                const shape = `M ${origin.x + index * spacing},${Number(height) - value}
+                L ${origin.x + index * spacing}, ${Number(height) - value}`;
                 //last
-                return (
-                    <path
-                        key={id}
-                        stroke={color}
-                        strokeWidth={stroke.width}
-                        d={`M ${origin.x + index * spacing},${Number(height) - value}
-            L ${origin.x + index * spacing}, ${Number(height) - value}`}
-                    />
-                );
+                return <path key={id} stroke={color} strokeWidth={stroke.width} d={shape} />;
             }
-            return (
-                <path
-                    key={id}
-                    strokeWidth={stroke.width}
-                    stroke={color}
-                    d={`M ${origin.x + index * spacing},${Number(height) - value}
-            L ${origin.x + spacing * (index + 1)}, ${Number(height) - unwrapArray(values[index + 1]).value}`}
-                />
-            );
+            const shape = `M ${origin.x + index * spacing},${Number(height) - value}
+            L ${origin.x + spacing * (index + 1)}, ${Number(height) - unwrapArray(values[index + 1]).value}`;
+            return <path key={id} strokeWidth={stroke.width} stroke={color} d={shape} />;
         });
     }, [values, height, origin.x, spacing, stroke]);
 
