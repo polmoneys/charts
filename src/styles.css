@@ -38,15 +38,15 @@ main {
     padding: max(5vh, 2em) 2vw;
 }
 
-li {
+ul li {
     list-style: none;
     font-size: 1.2em;
     color: blue;
     font-weight: 500;
-    color: rgb(255, 107, 107);
+    color: #444;
 }
 
-li:first-of-type {
+ul li:first-of-type {
     font-weight: 600;
 }
 header {
@@ -56,12 +56,18 @@ header {
     text-transform: uppercase;
 }
 
+.github {
+    text-align: center;
+}
+.github a {
+    display: block;
+}
 .github svg {
     width: 3em;
 }
 h1 {
     font-size: 6em;
-    color: rgb(255, 107, 107);
+    color: #333;
 }
 h1 span {
     letter-spacing: 0.1em;
