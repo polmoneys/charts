@@ -1,6 +1,5 @@
 import Values from '../interfaces/Values';
 
-// Output
 export default interface Computed {
     min: number;
     max: number;
@@ -10,9 +9,9 @@ export default interface Computed {
     origin: any;
     width: string | number;
     height: string | number;
-    round: boolean;
-    areaBg?: string;
+    area?: string;
     stroke: {
+        round: boolean;
         width: number;
         color: string;
     };

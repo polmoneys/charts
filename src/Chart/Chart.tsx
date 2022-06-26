@@ -1,85 +1,97 @@
 import { useState } from 'react';
 import Stick from 'react-stick';
 import ChartProps from './interfaces/Chart';
+import { Value } from './interfaces/Values';
+import UIState from './interfaces/UIState';
 import Base from './Base';
 import Charts from './Charts';
-import initialOptions from './initialOptions';
+import initialOptions, { initialUIState, noMedianVariants } from './initial';
+import Toolbar from './Charts/Toolbar';
 import styles from './Chart.module.css';
 
 const Chart = (props: ChartProps) => {
     const { datum, options = initialOptions } = props;
 
     const [base, setBase] = useState<Base | null>(null);
+    const isChartReady = base !== null;
 
-    const [tooltip, setTooltip] = useState<{
-        label: string;
-        value: string;
-        display: boolean;
-    }>({ value: '', label: '', display: false });
-
-    const [legend, setLegend] = useState({
-        label: '',
-        display: false,
-    });
+    const [uiState, setUIState] = useState<UIState>(initialUIState);
+    const uiOut = () => setUIState(initialUIState);
+    const tooltipIn = ({ label, raw }: any) => setUIState({ message: `${label} - ${raw}`, displayed: true, type: 'tooltip' });
 
     const mountRef = (ref: any) => {
         if (ref && base === null) {
             const rect = ref.getBoundingClientRect();
-            const { width, height, left } = rect;
+            const { width, height } = rect;
             const instance = new Base(datum, {
                 ...options,
                 svg: {
                     ...options.svg,
                     width,
                     height: Math.floor(height),
-                    left: left.toString(),
                 },
             });
             setBase(instance);
         }
     };
 
-    const tooltipIn = ({ label, raw }: any) => setTooltip({ label, value: raw, display: true });
-    const tooltipMedianIn = ({ median }: any) => setTooltip({ label: 'Median', value: median, display: true });
+    const {
+        ui: { border, bg },
+        variant,
+    } = options;
 
-    const tooltipOut = () => {
-        setTooltip({ label: '', value: '', display: false });
-    };
-    const legendOut = () => {
-        setLegend({ label: '', display: false });
-    };
-
-    const isChartReady = base !== null;
-    const uiBorder = { border: `${options.stroke.width}px solid ${options.stroke.color}` };
-    const noMedianVariants = ['series', 'pie'];
+    const isSeries = variant === 'series';
     return (
         <Stick
             component="article"
             className={styles.root}
-            // inline
-            // align="top center"
             sameWidth
             autoFlipVertically
-            node={<Charts.Legend onClick={legendOut} {...legend} theme={{ ...options.theme.ui, ...uiBorder }} />}
+            node={
+                <Charts.Caption
+                    {...uiState}
+                    source={base?.svgProps['aria-label']}
+                    displayed={uiState.type === 'caption'}
+                    onClick={uiOut}
+                    theme={{ ...options.ui, chartBg: options.chart.bg }}
+                />
+            }
             position="top center"
-            onClickOutside={() => setLegend({ label: '', display: false })}
+            onClickOutside={uiOut}
         >
-            {isChartReady && (
+            <Charts.Tooltip {...uiState} displayed={uiState.type === 'tooltip'} onClick={uiOut} theme={options.ui} />
+            <Toolbar displayed={isChartReady}>
                 <button
-                    onClick={() => {
-                        setLegend((prev) => ({ label: base?.svgProps['aria-label'], display: !prev.display }));
-                    }}
-                    style={{ ...uiBorder, backgroundColor: options.theme.areaBg }}
-                    className={styles.toggle}
+                    onClick={() =>
+                        base?.chart.values !== undefined
+                            ? setUIState((prev) => ({
+                                  message: prev.displayed ? '' : isSeries ? (base?.chart.values[0] as Array<Value>) : base?.chart.values,
+                                  displayed: !prev.displayed,
+                                  type: prev.displayed ? 'initial' : 'caption',
+                              }))
+                            : {}
+                    }
+                    style={{ border, backgroundColor: bg }}
                 >
-                    <span className={styles.visuallyHidden}> Toggle</span>
+                    <span className={styles.visuallyHidden}> Toggle info</span>
                 </button>
-            )}
-            {tooltip.display && <Charts.Tooltip {...tooltip} onClick={tooltipOut} theme={{ ...options.theme.ui, ...uiBorder }} />}
+            </Toolbar>
+
             <svg ref={mountRef} {...base?.svgProps}>
                 {isChartReady && [
-                    !noMedianVariants.includes(options.variant) && options.theme.median && (
-                        <Charts.Median key="median" {...base.chartMedian} onClick={tooltipMedianIn} />
+                    !noMedianVariants.includes(variant) && (
+                        <Charts.Median
+                            key="median"
+                            {...base.chartMedian}
+                            onClick={({ median }: { median: number }) =>
+                                setUIState((prev) => ({
+                                    message: prev.displayed ? '' : `Median value ${median.toString()}`,
+                                    displayed: !prev.displayed,
+                                    type: prev.displayed ? 'initial' : 'tooltip',
+                                }))
+                            }
+                            displayed={options.median}
+                        />
                     ),
                     {
                         skyScraper: <Charts.SkyScraper key="skyscraper" {...base.chart} onClick={tooltipIn} />,
@@ -93,7 +105,9 @@ const Chart = (props: ChartProps) => {
                         line: <Charts.Line key="line" {...base.chart} onClick={tooltipIn} />,
                         rect: <Charts.Rect key="rect" {...base.chart} onClick={tooltipIn} />,
                         pie: <Charts.Pie key="pie" {...base.chart} onClick={tooltipIn} />,
-                    }[options.variant],
+                        stack: <Charts.Stack key="stack" {...base.chart} onClick={tooltipIn} />,
+                        dots: <Charts.Dots key="dots" {...base.chart} onClick={tooltipIn} />,
+                    }[variant],
                 ]}
             </svg>
         </Stick>

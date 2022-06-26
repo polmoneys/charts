@@ -6,7 +6,7 @@ import Marker from './Marker';
 import Group from './Group';
 
 function Area(props: Charts) {
-    const { values, height, onClick, origin, round = true, spacing, stroke, areaBg } = props;
+    const { values, height, onClick, origin, spacing, stroke, area } = props;
 
     const markers = useMemo(() => {
         return values.map(({ color, label, raw, value, id }: Value, index: number) => {
@@ -33,8 +33,8 @@ function Area(props: Charts) {
             0,${height}
             `;
     return (
-        <Group round={round} stroke={stroke}>
-            <polygon strokeWidth={stroke.width} stroke={stroke.color} fill={areaBg} points={shape} />
+        <Group stroke={stroke}>
+            <polygon strokeWidth={stroke.width} stroke={stroke.color} fill={area} points={shape} />
             {markers}
         </Group>
     );

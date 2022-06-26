@@ -1,11 +1,15 @@
+import { Fragment } from 'react';
 import Charts from '../interfaces/Charts';
 import Computed from '../interfaces/Computed';
 import styles from '../Chart.module.css';
 
-interface Props extends Omit<Charts, 'areaBg'>, Pick<Computed, 'height' | 'median' | 'width'> {}
+interface Props extends Omit<Charts, 'areaBg'>, Pick<Computed, 'height' | 'median' | 'width'> {
+    displayed: boolean;
+}
 
 const Median = (props: Props) => {
-    const { onClick, width, height, stroke, median } = props;
+    const { onClick, width, height, stroke, median, displayed } = props;
+    if (!displayed) return <Fragment />;
 
     return (
         <line
@@ -17,7 +21,7 @@ const Median = (props: Props) => {
             y2={Number(height) - Number(median)}
             onClick={() => onClick({ median })}
             stroke={stroke.color}
-            className={styles.median}
+            className={styles.pointer}
         />
     );
 };

@@ -6,7 +6,7 @@ import Marker from './Marker';
 import Group from './Group';
 
 const Series = (props: Charts) => {
-    const { values, height, onClick, origin, round, spacing, stroke } = props;
+    const { values, height, onClick, origin, spacing, stroke } = props;
 
     const markers = useMemo(() => {
         return values.map((datum: any) =>
@@ -29,7 +29,7 @@ const Series = (props: Charts) => {
     }, [values, height, onClick, origin.x, spacing, stroke]);
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {values.map((datum: any, i: number) =>
                 datum.map(({ color, value, id }: Value, index: number) => {
                     // @ts-ignore

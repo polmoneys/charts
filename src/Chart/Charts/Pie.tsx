@@ -6,7 +6,7 @@ import { toPercent } from '../utils';
 import styles from '../Chart.module.css';
 
 const Pie = (props: Charts) => {
-    const { values, width, height, onClick, round = true, stroke } = props;
+    const { values, width, height, onClick, stroke } = props;
 
     const size = 60;
 
@@ -50,7 +50,7 @@ const Pie = (props: Charts) => {
     }, [values, size]);
 
     return (
-        <Group round={round} stroke={stroke} transform={`translate(${Number(width) / 2},${Number(height) / 2})`}>
+        <Group stroke={stroke} transform={`translate(${Number(width) / 2},${Number(height) / 2})`}>
             {slices}
         </Group>
     );

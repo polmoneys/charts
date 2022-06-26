@@ -4,13 +4,13 @@ import Group from './Group';
 import styles from '../Chart.module.css';
 
 const Bar = (props: Charts) => {
-    const { values, height, onClick, origin, round, spacing, stroke } = props;
+    const { values, height, onClick, origin, spacing, stroke } = props;
 
     const spacingOffset = 10;
     const bottomOffset = 6;
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {values.map(({ color, label, raw, value, id }: Value, index: number) => {
                 const shape = `M ${spacingOffset + origin.x + index * spacing},${Number(height) - bottomOffset}  
                 L ${spacingOffset + origin.x + index * spacing}, ${Number(height) - value - bottomOffset} `;

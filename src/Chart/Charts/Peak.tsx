@@ -4,10 +4,10 @@ import Group from './Group';
 import styles from '../Chart.module.css';
 
 const Peak = (props: Charts) => {
-    const { values, onClick, origin, round, spacing, stroke } = props;
+    const { values, onClick, origin, spacing, stroke } = props;
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {values.map(({ color, label, raw, value, id }: Value, index: number) => {
                 const face = `${origin.x + index * spacing},${origin.y}`;
                 const face2 = `${origin.x + index * spacing + spacing / 2},${value > 0 ? origin.y - value : origin.y - 10}`;

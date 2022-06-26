@@ -4,12 +4,12 @@ import Group from './Group';
 import styles from '../Chart.module.css';
 
 const Pyramid = (props: Charts) => {
-    const { values, height, onClick, origin, round, spacing, stroke, shades } = props;
+    const { values, height, onClick, origin, spacing, stroke } = props;
 
     const scaling = 0.5;
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {values.map(({ label, raw, value, color }: Value, index: number) => {
                 const peak = Number(height) - (87 + value) * scaling;
 
@@ -36,13 +36,9 @@ const Pyramid = (props: Charts) => {
                     ${originFix.x + vertex.xx},${originFix.y + vertex.y}
                     z`,
                 ];
-                return (
-                    <g key={index} className={styles.pointer} onClick={() => onClick({ raw, label })}>
-                        {faces.map((f, i) => (
-                            <path d={f} key={`${i}-face-pyramid`} fill={color} />
-                        ))}
-                    </g>
-                );
+                return faces.map((f, i) => (
+                    <path d={f} key={`${i}-face-pyramid`} fill={color} className={styles.pointer} onClick={() => onClick({ raw, label })} />
+                ));
             })}
         </Group>
     );

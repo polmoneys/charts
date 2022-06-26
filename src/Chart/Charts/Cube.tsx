@@ -4,12 +4,12 @@ import Group from './Group';
 import styles from '../Chart.module.css';
 
 const Cube = (props: Charts) => {
-    const { values, height, onClick, origin, round, spacing, stroke, shades } = props;
+    const { values, height, onClick, origin, spacing, stroke } = props;
 
     const scaling = 0.5;
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {values.map(({ label, raw, value, color }: Value, index: number) => {
                 const originFix = {
                     x: origin.x + index * spacing,
@@ -50,13 +50,7 @@ const Cube = (props: Charts) => {
                     `,
                 ];
 
-                return (
-                    <g key={index} className={styles.pointer} onClick={() => onClick({ raw, label })}>
-                        {faces.map((f, i) => (
-                            <path key={`${i}-face`} d={f} fill={color} />
-                        ))}
-                    </g>
-                );
+                return faces.map((f, i) => <path key={`${i}-face`} d={f} fill={color} className={styles.pointer} onClick={() => onClick({ raw, label })} />);
             })}
         </Group>
     );

@@ -5,7 +5,7 @@ import Group from './Group';
 import styles from '../Chart.module.css';
 
 const Rect = (props: Charts) => {
-    const { values, height, onClick, origin, round, spacing, stroke } = props;
+    const { values, height, onClick, origin, spacing, stroke } = props;
     const minPeak = 4;
 
     const rects = useMemo(() => {
@@ -30,11 +30,7 @@ const Rect = (props: Charts) => {
         });
     }, [values, height, origin.x, spacing, stroke]);
 
-    return (
-        <Group round={round} stroke={stroke}>
-            {rects}
-        </Group>
-    );
+    return <Group stroke={stroke}>{rects}</Group>;
 };
 export default Rect;
 Rect.displayName = 'Rect';

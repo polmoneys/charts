@@ -3,10 +3,10 @@ import Group from './Group';
 import styles from '../Chart.module.css';
 
 const Skyline = (props: Charts) => {
-    const { values, onClick, origin, round, spacing, stroke } = props;
+    const { values, onClick, origin, spacing, stroke } = props;
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {values.map(({ color, label, raw, value, id }: any, index: number) => {
                 const originFix = {
                     ...origin,
@@ -23,11 +23,7 @@ const Skyline = (props: Charts) => {
 
                 const shape = `${p1} ${p2} ${p3} ${p4} ${p5}`;
 
-                return (
-                    <g key={index} className={styles.pointer} onClick={() => onClick({ raw, label })}>
-                        <polygon points={shape} fill={color} />
-                    </g>
-                );
+                return <polygon key={id} points={shape} fill={color} className={styles.pointer} onClick={() => onClick({ raw, label })} />;
             })}
         </Group>
     );

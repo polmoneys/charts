@@ -1,50 +1,77 @@
 .root {
+    --gap: 0.8em;
     position: relative;
 }
 
-.tooltip,
-.median,
-.toggle,
-.legend {
-    cursor: pointer;
-    padding: 0.8em 0.4em;
-}
-
-.tooltip,
-.toggle {
+.toolbar,
+.tooltip {
     position: absolute;
 }
-.tooltip {
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-}
 
-.toggle {
-    top: 0.3em;
-    left: 0.3em;
-    min-width: 1.8em;
+.toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--gap) / 3);
+    top: calc(var(--gap) / 3);
+    left: calc(var(--gap) / 3);
+}
+.toolbar button {
+    cursor: pointer;
+    width: 1.8em;
     aspect-ratio: 1;
     border-radius: 0.5em;
     padding: 0;
     overflow: hidden;
+    z-index: 1;
+    transition: all 0.1s 0.2s ease-out-in;
 }
 
-.toggle:hover {
-    filter: hue-rotate(-120deg);
+.toolbar button:hover {
+    transform: scale(1.05);
+}
+.toolbar button:focus {
+    outline: none;
+    filter: grayscale(9);
 }
 
-.legend {
+.tooltip {
+    cursor: pointer;
+    padding: 0.8em 0.4em;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    font-weight: bold;
+}
+
+.caption {
+    --gap: 0.8em;
+    padding: calc(var(--gap) / 2);
+    list-style: none;
     text-align: left;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
+}
+
+.caption li {
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+    flex: 0 1 calc(33% - var(--gap));
+    font-size: 1em;
+}
+.caption li:first-of-type {
+    flex: 1 1 100%;
 }
 
 .marker {
     cursor: pointer;
+    transition: filter 0.1s 0.2s ease-out-in;
 }
 
 .marker:hover {
-    filter: hue-rotate(-120deg);
+    filter: grayscale(9);
 }
 
 .pointer {

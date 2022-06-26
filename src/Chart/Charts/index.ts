@@ -8,10 +8,12 @@ import Pyramid from './Pyramid';
 import Cube from './Cube';
 import SkyScraper from './SkyScraper';
 import Series from './Series';
+import Stack from './Stack';
 import Rect from './Rect';
 import Pie from './Pie';
+import Dots from './Dots';
+import Caption from './Caption';
 import Tooltip from './Tooltip';
-import Legend from './Legend';
 
 const Charts: Record<string, any> = {};
 
@@ -24,10 +26,12 @@ Charts.Skyline = Skyline;
 Charts.Pyramid = Pyramid;
 Charts.Cube = Cube;
 Charts.SkyScraper = SkyScraper;
+Charts.Stack = Stack;
 Charts.Series = Series;
+Charts.Dots = Dots;
 Charts.Rect = Rect;
 Charts.Pie = Pie;
 Charts.Tooltip = Tooltip;
-Charts.Legend = Legend;
+Charts.Caption = Caption;
 
 export default Charts;

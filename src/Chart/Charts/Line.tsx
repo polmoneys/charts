@@ -6,7 +6,7 @@ import Marker from './Marker';
 import Group from './Group';
 
 const Line = (props: Charts) => {
-    const { values, height, onClick, origin, round, spacing, stroke } = props;
+    const { values, height, onClick, origin, spacing, stroke } = props;
 
     const lines = useMemo(() => {
         return values.map(({ color, value, id }: Value, index: number) => {
@@ -41,7 +41,7 @@ const Line = (props: Charts) => {
     }, [values, height, onClick, origin.x, spacing, stroke]);
 
     return (
-        <Group round={round} stroke={stroke}>
+        <Group stroke={stroke}>
             {lines}
             {markers}
         </Group>

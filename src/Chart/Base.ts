@@ -2,7 +2,7 @@ import Options from './interfaces/Options';
 import Computed from './interfaces/Computed';
 import Values, { Value, Series } from './interfaces/Values';
 import Charts from './interfaces/Charts';
-import { initialComputed } from './initialOptions';
+import { initialComputed } from './initial';
 import { roundTo } from './utils';
 
 export default class Base {
@@ -10,21 +10,19 @@ export default class Base {
     #options: Options;
     accessibility: any;
     datum: Values;
-    #mounted: boolean;
 
     constructor(datum: Values, options: Options) {
         this.datum = [];
         this.computed = initialComputed;
         this.#options = options;
-        this.#mounted = false;
         this.accessibility = { title: '' };
         this.init(datum);
     }
 
     get chart() {
-        const { height, stroke, origin, spacing, values, round, width, areaBg } = this.computed;
+        const { height, stroke, origin, spacing, values, width, area, min, max } = this.computed;
         const {
-            theme: { shades },
+            chart: { shades, bg },
         } = this.#options;
         return {
             values,
@@ -32,14 +30,16 @@ export default class Base {
             stroke,
             origin,
             spacing,
-            round,
             width,
             shades,
-            areaBg,
+            area,
+            min,
+            max,
+            bg,
         } as Charts;
     }
     get chartMedian() {
-        const { height, stroke, origin, spacing, median, width, values, round } = this.computed;
+        const { height, stroke, origin, spacing, median, width, values } = this.computed;
         return {
             height,
             stroke,
@@ -48,20 +48,20 @@ export default class Base {
             median,
             width,
             values,
-            round,
         };
     }
 
     get svgProps() {
         const {
             svg: { viewBox, height, width },
-            theme: { chartBg },
+            chart: { bg, border },
         } = this.#options;
         return {
             'aria-label': this.accessibility.title,
             style: {
-                background: chartBg,
+                backgroundColor: bg,
                 overflow: 'visible',
+                border,
             },
             viewBox: `${viewBox.x} ${viewBox.y} ${width} ${height}`,
             width: '100%',
@@ -73,10 +73,9 @@ export default class Base {
         this.datum = datum;
         const {
             stroke,
-            theme: {
-                areaBg,
+            chart: {
+                area,
                 shades: [colorStart, colorEnd],
-                round,
             },
             svg,
             variant,
@@ -129,9 +128,8 @@ export default class Base {
             origin,
             height: Number(svg.height),
             width: Number(svg.width),
-            round: round,
             stroke,
-            areaBg: areaBg,
+            area,
             ...(isPie && {
                 total,
             }),
@@ -142,6 +140,11 @@ export default class Base {
         const { min, max } = this.computed;
         const { about } = this.#options;
 
+        if (about.title) {
+            this.accessibility = { title: about.title };
+            return { title: about.title };
+        }
+
         const source = about.source ? `Data source is from ${about.source}` : 'From a non specified source';
         let title = '';
         if (!isSeries) {
@@ -150,6 +153,12 @@ export default class Base {
             title = `${source} compares ${values.length} values. It's max value ${max} is from ${peakLabel}. The lowest value ${min}, is from ${lowerLabel}.`;
         } else {
             title = `${source} compares ${values.length} trends series consisting of ${values[0].length} values each.`;
+        }
+        if (about.labelX) {
+            title += ` ${about.labelX} on the X axis.`;
+        }
+        if (about.labelY) {
+            title += ` ${about.labelY} on the Y axis.`;
         }
         this.accessibility = { title };
         return { title };
@@ -161,7 +170,7 @@ export default class Base {
 
     peak(value: number, min: number, max: number) {
         const {
-            theme: { topSpace },
+            chart: { topSpace },
             svg: { height },
         } = this.#options;
 

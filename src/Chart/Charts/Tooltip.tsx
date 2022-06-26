@@ -1,12 +1,16 @@
+import { Fragment } from 'react';
+import UIProps from '../interfaces/UIProps';
 import styles from '../Chart.module.css';
 
-const Tooltip = (props: { label: string; value: string; onClick: () => void; display: boolean; theme: { bg: string; color: string; border: string } }) => {
+const Tooltip = (props: UIProps) => {
     const {
-        label,
-        value,
+        displayed,
+        message,
         onClick,
         theme: { bg, color, border },
     } = props;
+    if (!displayed) return <Fragment />;
+
     return (
         <button
             onClick={() => onClick()}
@@ -17,7 +21,7 @@ const Tooltip = (props: { label: string; value: string; onClick: () => void; dis
             }}
             className={styles.tooltip}
         >
-            {label} : {value}
+            {message as string}
         </button>
     );
 };

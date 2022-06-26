@@ -2,16 +2,14 @@ import { ReactNode } from 'react';
 
 interface Props {
     children: ReactNode;
-    round: boolean;
-    stroke: { color: string; width: number };
+    stroke: { color: string; width: number; round: boolean };
     transform?: string;
 }
 
 function Group(props: Props) {
     const {
         children,
-        round = true,
-        stroke: { color, width },
+        stroke: { color, width, round = true },
         transform,
     } = props;
     return (

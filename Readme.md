@@ -6,71 +6,7 @@ Extensible, customizable SVG powered React Charts. With some default [**variants
 
 Paste **Chart** folder into your project. Use `<Chart/>`component and provide some datum. Customize further with **options** prop.
 
-```jsx
 
- interface ChartProps {
-    datum: Values;
-    options?: Options;
-}
-
-const initialOptions: Options = {
-    about: {
-        source: '',
-        title: '',
-    },
-    axis: {
-        labelX: '',
-        labelY: '',
-    },
-    svg: {
-        height: '80',
-        left: '0',
-        viewBox: { x: '0', y: '2' },
-        width: '80',
-    },
-    stroke: {
-        color: 'blue',
-        width: 1,
-    },
-    theme: {
-        areaBg: 'rgb(227, 255, 168)',
-        chartBg: 'rgba(0,0,0,.1)',
-        ui: {
-            bg: 'rgb(227, 255, 168)',
-            color: '#222',
-        },
-        legend: true,
-        minValues: 10,
-        round: true,
-        shades: ['rgba(69, 255, 188,1)', 'rgba(227, 255, 168,1)'], 
-        topSpace: 10,
-        median: false,
-    },
-    variant: 'line',
-};
-
-
-const colorsOptions = {
-    ...initialOptions,
-    stroke: {
-        ...initialOptions.stroke,
-        width: 3,
-    },
-};
-
-    <section>
-        {variantNames
-            .filter((variant) => variant !== 'bar')
-            .map((variant) => (
-                <Chart
-                    datum={variant === 'series' ? STOCKS_SERIES : STOCKS}
-                    key={variant.trim().toLowerCase()}
-                    options={{ ...colorsOptions, variant }}
-                />
-            ))}
-    </section>
-
-```
 
 ### Inspiration 💐
 
